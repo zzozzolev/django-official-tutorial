@@ -7,6 +7,7 @@ from rest_framework.reverse import reverse
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer, UserSerializer
 from snippets.permissions import IsOwnerOrReadOnly
+from snippets.pages import DefaultPagination
 
 
 @api_view(['GET'])
@@ -21,6 +22,7 @@ class SnippetList(generics.ListCreateAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = DefaultPagination
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
